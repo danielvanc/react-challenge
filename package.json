@@ -1,5 +1,6 @@
 {
-  "name": "dark-mode",
+  "author": "Alex Gurr",
+  "name": "spootify",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -9,8 +10,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "animate.css": "^3.7.2",
-    "bulma": "^0.8.2",
+    "animate.css": "^4.1.1",
+    "axios": "^0.21.1",
+    "classnames": "^2.2.6",
     "node-sass": "^4.14.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",

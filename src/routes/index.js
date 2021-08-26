@@ -1,5 +1,7 @@
-import Home from './App';
+import React from 'react';
+import Discover from './Discover';
 
-// Use something like react-router-dom to manage multiple pages/routes
-
-export default Home;
+export default function Routes() {
+  // Here you'd return an array of routes
+  return <Discover />;
+}
