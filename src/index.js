@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './_index.scss';
+import AppContainer from './common/containers/App';
+import './styles/_main.scss';
+import Routes from './routes';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <AppContainer>
+    <DarkModeProvider>
+      <Routes />
+    </DarkModeProvider>
+  </AppContainer>,
   document.getElementById('root')
 );
