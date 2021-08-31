@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { fireFetch } from '../client/client'
+import { fireFetch, client } from '../client/client'
 import config from '../config'
 
 const actionTypes = {
@@ -63,17 +63,53 @@ export function useAsync(initialState = {}) {
   }
 }
 
+function useGetToken() {
+  const tokenUrl = config.api.authUrl
+  const { data, isSuccess, run } = useAsync();
 
+  useEffect(() => {  
+    const result = fireFetch(tokenUrl)
+    run(result)
+    
+  }, [run, tokenUrl]);
 
-export function useGetData() {
-  const { data, run } = useAsync();
+  if (isSuccess) {
+    return data?.access_token
+  }
+}
 
+function useGetList(url, token) {
+  const { data, isSuccess, isError, isLoading, run } = useAsync();
 
   useEffect(() => {
-    const data = fireFetch(config.api.authUrl)
-    // console.log('data', data);
-    run(data)
-  }, [run])
+    if (token) {
+      const result = client(
+        url, 
+        { headers: { Authorization: `Bearer ${token}` }, body: null }
+      )  
+      run(result)
+    }
+    
+  }, [url, token, run]);
 
-  return { data }
+  if (isError) {} // catch error handling here }
+  if (isLoading) {} // Add Loading spinner here }
+
+  if (isSuccess) {
+    return data
+  }
+}
+
+export function useGetData(url) {
+  const token = useGetToken()
+
+  const releases = useGetList("https://api.spotify.com/v1/browse/new-releases", token)
+  const featured = useGetList("https://api.spotify.com/v1/browse/featured-playlists", token)
+  const categories = useGetList("https://api.spotify.com/v1/browse/categories", token)
+  
+  return {
+    releases,
+    featured,
+    categories
+  }
 }

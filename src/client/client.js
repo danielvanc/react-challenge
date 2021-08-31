@@ -1,6 +1,6 @@
 import config from '../config';
 
-export async function client(url, { data, method, headers: customHeaders, ...customConfig } = {}) {
+export async function client(url, { data = "", method = "GET", headers: customHeaders, ...customConfig } = {}) {
   const config = {
     method,
     body: data ? JSON.stringify(data) : "",
@@ -9,11 +9,11 @@ export async function client(url, { data, method, headers: customHeaders, ...cus
       ...customHeaders,
     },
     ...customConfig
-  }  
+  }
   
   return await fetch(url, config)
-      .then(res => res.json())
-      .then((data) => data)
+    .then(res => res.json())
+    .then((data) => data)
 }
 
 export async function fireFetch(api = "") {
