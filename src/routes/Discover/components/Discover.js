@@ -11,7 +11,9 @@ export default function Discover() {
   const [categories, setCategories] = useState([]);
   
   // const [{ releases, playlists, categories }] = useGetData();
-  useGetData();
+  const { data } = useGetData();
+
+  console.log('data is now', data);
   
 
 

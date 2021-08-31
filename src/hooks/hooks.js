@@ -71,6 +71,9 @@ export function useGetData() {
 
   useEffect(() => {
     const data = fireFetch(config.api.authUrl)
-    console.log('data', data);
-  }, [])
+    // console.log('data', data);
+    run(data)
+  }, [run])
+
+  return { data }
 }
