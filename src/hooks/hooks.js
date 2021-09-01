@@ -108,8 +108,8 @@ export function useGetData(url) {
   const categories = useGetList("https://api.spotify.com/v1/browse/categories", token)
   
   return {
-    releases,
-    featured,
-    categories
+    releases: releases?.albums?.items,
+    featured: featured?.playlists?.items,
+    categories: categories?.categories?.items
   }
 }
