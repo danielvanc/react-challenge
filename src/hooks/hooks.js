@@ -93,19 +93,45 @@ function useGetList(url, token) {
   }, [url, token, run]);
 
   if (isError) {} // catch error handling here }
-  if (isLoading) {} // Add Loading spinner here }
+  if (isLoading) {} // Add Loading state here }
 
   if (isSuccess) {
     return data
   }
 }
 
-export function useGetData(url) {
+
+/*
+  This function is the primary hook for retrieving the 3 playlists.
+  
+  When using the 'client_credentials' auth approach, Spotify requires
+  an initial post request to retrieve an auth token, which then you 
+  need to supply for each api request, there after.
+
+  There are a few different ways this implementation could have been 
+  accomplished, this is just one of them.
+
+  I decided to go with the approach of calling them all one after the 
+  other, without waiting upon each one to be completed (in paralell)
+  because we want to be able to display each one in it's own list, 
+  but it doesn't necessarily need to load from top to bottom, in order. 
+  If one request takes longer, that's ok. Another important advantage 
+  of this appraoch is that they are all non-blocking. So at any
+  time a request fails, the others are able to succeed and you can
+  individually create fallback approaches for each one that fails,
+  rather than the paralell approach and catching any errors that happen
+  for all.
+
+  Initiially, i was going to go with the Promise.all() approach, but
+  because of the main reasons outlined above, I felt this may provide
+  a better UX overall
+*/
+export function useGetData() {
   const token = useGetToken()
 
-  const releases = useGetList("https://api.spotify.com/v1/browse/new-releases", token)
-  const featured = useGetList("https://api.spotify.com/v1/browse/featured-playlists", token)
-  const categories = useGetList("https://api.spotify.com/v1/browse/categories", token)
+  const releases = useGetList(config.URLS.RELEASES, token)
+  const featured = useGetList(config.URLS.FEATURED, token)
+  const categories = useGetList(config.URLS.CATEGORIES, token)
   
   return {
     releases: releases?.albums?.items,
